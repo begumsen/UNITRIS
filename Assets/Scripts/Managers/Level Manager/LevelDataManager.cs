@@ -1,0 +1,121 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class LevelDataManager : MonoBehaviour
+{
+    public string fileName = "Level1";
+    public static LevelDataManager Instance { get; private set; }
+    LevelData levelData;
+
+    private void Awake()
+    {
+        Instance = this;
+        levelData = ReadLevelDataFromFile(fileName);
+       
+    }
+
+    private LevelData ReadLevelDataFromFile(string fileName)
+    {
+        LevelData levelData = new LevelData();
+
+        // Load the text file from Resources folder (make sure the file is in Assets/Resources)
+        TextAsset textAsset = Resources.Load<TextAsset>(fileName);
+
+        if (textAsset != null)
+        {
+            // Split the text asset content by newline characters to separate each line
+            string[] lines = textAsset.text.Split('\n');
+            int levelValue = 0;
+            int widthValue = 0;
+            int heightValue = 0;
+            // Parse each line to extract the level information
+            foreach (string line in lines)
+            {
+                string[] tokens = line.Split(':');
+                if (tokens.Length == 2)
+                {
+                    string key = tokens[0].Trim().ToLower();
+                    string value = tokens[1].Trim();
+
+                    // Parse the values based on the keys
+                    switch (key)
+                    {
+                        case "level":
+                            if (int.TryParse(value, out levelValue))
+                                levelData.level = levelValue;
+                            break;
+                        case "width":
+                            if (int.TryParse(value, out widthValue))
+                                levelData.width = widthValue;
+                            break;
+                        case "height":
+                            if (int.TryParse(value, out heightValue))
+                                levelData.height = heightValue;
+                            break;
+                        case "colors":
+                            levelData.colors = CreateColorsArray(value, widthValue, heightValue);
+                            break;
+                        case "blocks":
+                            levelData.blocks = CreateBlocksArray(value);
+                            break;
+                        default:
+                            // Handle any other keys if necessary
+                            break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Level data file not found: " + fileName);
+        }
+
+        return levelData;
+    }
+
+    public string[,] CreateColorsArray(string colorsInfo, int width, int height)
+    {
+        // Split the colorsInfo by commas to get individual color strings
+        string[] colorStrings = colorsInfo.Split(',');
+
+        string[,] levelArray = new string[width, height];
+
+        int index = 0;
+
+        // Fill the levelArray based on the color strings
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                // Convert the color string to an integer representation
+                levelArray[x, y] = colorStrings[index];
+                index++;
+            }
+        }
+
+        return levelArray;
+    }
+
+    public int[] CreateBlocksArray(string blocksInfo)
+    {
+        // Split the blocksInfo by commas to get individual color strings
+        string[] blocksStrings = blocksInfo.Split(',');
+
+        int[] blocks = new int[blocksStrings.Length];
+        for (int i = 0; i < blocksStrings.Length; i++)
+        {
+            int.TryParse(blocksStrings[i], out blocks[i]);
+        }
+
+        return blocks;
+    }
+
+    public LevelData LevelData
+    {
+        get
+        {
+            return this.levelData;
+        }
+    }
+}
