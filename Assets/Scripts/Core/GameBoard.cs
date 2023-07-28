@@ -69,7 +69,7 @@ public class GameBoard : MonoBehaviour
             // the background of the board
             GameObject background = Instantiate(filledSquare, new Vector3(width/2f - 0.5f, (height - marginBlockY + 4) / 2f -0.5f, 10), Quaternion.identity) as GameObject;
             background.transform.localScale = new Vector3(width + 0.3f, height - marginBlockY + 4 + 0.3f, 1);
-            ColorTheBlock(background.transform, "#282828", 0.7f);
+            ColorTheBlock(background.transform, "#282828", 1f);
             // the border of the board
             GameObject border = Instantiate(emptySquare, new Vector3(width / 2f - 0.5f, (height - marginBlockY + 4) / 2f - 0.5f, 10), Quaternion.identity) as GameObject;
             SpriteRenderer spriteRenderer = border.GetComponent<SpriteRenderer>();
@@ -80,10 +80,10 @@ public class GameBoard : MonoBehaviour
             {
                 for (int x = 0; x < width; x++)
                 {
-                    GameObject newSquare = Instantiate(roundedSquare, new Vector3(x, y, 10), Quaternion.identity) as GameObject;
+                    GameObject newSquare = Instantiate(roundedSquare, new Vector3(x, y, 8), Quaternion.identity) as GameObject;
                     if (level.colors[x,y] == "-1" )
                     {
-                        ColorTheBlock(newSquare.transform, "#484848", 0.6f);
+                        ColorTheBlock(newSquare.transform, "#484848", 1f);
                     } else
                     {
                         ColorTheBlock(newSquare.transform, "#181818", 1f);

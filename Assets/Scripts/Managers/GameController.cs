@@ -14,8 +14,6 @@ public class GameController : MonoBehaviour
     // currently block
     Block currentBlock;
 
-    SoundManager soundManager;
-
     float moveDownRate = 1f;
     float deltaMoveDown = 0;
     
@@ -35,7 +33,6 @@ public class GameController : MonoBehaviour
     {
         gameBoard = GameObject.FindWithTag("GameBoard").GetComponent<GameBoard>();
         spawner = GameObject.FindWithTag("BlockSpawner").GetComponent<BlockSpawner>();
-        soundManager = GameObject.FindObjectOfType<SoundManager>();
         currentBlock = spawner.SpawnRandomBlock();
         
     }
@@ -45,7 +42,7 @@ public class GameController : MonoBehaviour
     {
         deltaMoveDown += Time.deltaTime;
 
-        if (currentBlock != null && !gameOver && !gameBoard && !spawner && !soundManager)
+        if (currentBlock != null && !gameOver && gameBoard != null && spawner != null)
         {
             PlayerInput();
         }
@@ -76,11 +73,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    void PlayMoveSound()
-    {
-        AudioSource.PlayClipAtPoint(soundManager.moveSound, Camera.main.transform.position, soundManager.fxVolume);
-
-    }
+  
 
     void PlayerInput()
     {

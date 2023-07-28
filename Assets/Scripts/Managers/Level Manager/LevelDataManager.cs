@@ -19,11 +19,11 @@ public class LevelDataManager : MonoBehaviour
     {
         LevelData levelData = new LevelData();
 
-        // Load the text file from Resources folder (make sure the file is in Assets/Resources)
-        TextAsset textAsset = Resources.Load<TextAsset>(fileName);
-
-        if (textAsset != null)
+        
+        try
         {
+            // Load the text file from Resources folder (make sure the file is in Assets/Resources)
+            TextAsset textAsset = Resources.Load<TextAsset>(fileName);
             // Split the text asset content by newline characters to separate each line
             string[] lines = textAsset.text.Split('\n');
             int levelValue = 0;
@@ -66,10 +66,18 @@ public class LevelDataManager : MonoBehaviour
                 }
             }
         }
-        else
+        catch
         {
             Debug.LogWarning("Level data file not found: " + fileName);
+            levelData.level = 0;
+            levelData.width = 4;
+            levelData.height = 7;
+            string color = "-1,-1,#424242,-1,-1,-1,#f45dab,-1,-1,#f45dab,#f487c1,#f45dab,-1,#f487c1,#f45dab,#f487c1,-1,#f45dab,-1,-1,-1,#f45dab,-1,-1,#666666,#f45dab,-1,-1";
+            levelData.colors = CreateColorsArray(color, levelData.width, levelData.height);
+            string blocks = "2,9,8,1";
+            levelData.blocks = CreateBlocksArray(blocks);
         }
+
 
         return levelData;
     }

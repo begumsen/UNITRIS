@@ -1,0 +1,12 @@
+{
+  "levels": [
+    {
+      "levelNo": 0,
+      "highScore": 0
+    },
+    {
+      "levelNo": 1,
+      "highScore": 0
+    }
+  ]
+}
