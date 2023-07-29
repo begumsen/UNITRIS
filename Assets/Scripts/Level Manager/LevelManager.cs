@@ -27,10 +27,11 @@ public class LevelManager : MonoBehaviour
                 GameObject newLevel = Instantiate(levelPrefab, levelContent);
                 TMP_Text levelNoText = newLevel.transform.Find("LevelNo").GetComponent<TMP_Text>();
                 TMP_Text highScoreText = newLevel.transform.Find("HighScore").GetComponent<TMP_Text>();
-
+                LevelButton levelButton = newLevel.transform.Find("PlayButton").GetComponent<LevelButton>();
                 // Set the LevelNo and HighScore texts using the levelInfo data
                 levelNoText.text = "Level " + level.levelNo.ToString();
                 highScoreText.text = "High Score: " + level.highScore.ToString();
+                levelButton.levelNo = int.Parse(level.levelNo);
             }
             
         }

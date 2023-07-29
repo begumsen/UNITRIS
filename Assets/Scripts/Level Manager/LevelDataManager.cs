@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelDataManager : MonoBehaviour
 {
@@ -10,12 +11,32 @@ public class LevelDataManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-        levelData = ReadLevelDataFromFile(fileName);
+        EventManager.Initialize();
+        if(Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            EventManager.AddListener(EventName.LevelSelected,
+            HandleLevelSelectedEvent);
+        } else
+        {
+            Destroy(gameObject);
+        }
+        
+        
        
     }
 
-    private LevelData ReadLevelDataFromFile(string fileName)
+    void HandleLevelSelectedEvent(int levelNo)
+    {
+        
+        levelData = ReadLevelDataFromFile("Level"+ levelNo);
+        SceneManager.LoadScene("GameScene");
+    }
+
+    
+
+    public LevelData ReadLevelDataFromFile(string fileName)
     {
         LevelData levelData = new LevelData();
 

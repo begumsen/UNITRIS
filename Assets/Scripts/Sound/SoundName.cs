@@ -8,5 +8,5 @@ public enum SoundName
     GameOverSound,
     CorrectlyPlacedSound,
     MisplacedSound,
-    MenuSelectButton
+    MenuSelectSound
 }

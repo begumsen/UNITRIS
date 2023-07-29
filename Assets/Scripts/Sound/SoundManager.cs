@@ -27,8 +27,8 @@ public static class SoundManager {
              Resources.Load<AudioClip>("CorrectlyPlacedSound"));
         audioClips.Add(SoundName.MisplacedSound,
              Resources.Load<AudioClip>("MisplacedSound"));
-        audioClips.Add(SoundName.MenuSelectButton,
-              Resources.Load<AudioClip>("MenuSelectButton"));
+        audioClips.Add(SoundName.MenuSelectSound,
+              Resources.Load<AudioClip>("MenuSelectSound"));
     }
 
     /// <summary>
