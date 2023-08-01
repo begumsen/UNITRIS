@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameBoard : MonoBehaviour
+public class GameBoard : EventInvoker
 {
 
     int height = 18;
@@ -21,21 +21,6 @@ public class GameBoard : MonoBehaviour
 
     LevelData level;
 
-    //example pattern of House
-    int[,] housePattern =
-        {   
-            {-1,  0,  0,  0, -1, -1,  0,  0,  0, -1},
-            {-1,  0,  0,  0, -1, -1,  0,  0,  0, -1},
-            {-1,  0,  0,  0, -1, -1,  0,  0,  0, -1},
-            {-1,  0,  0,  0,  0,  0,  0,  0,  0, -1},
-            {-1,  0, -1, -1,  0,  0, -1, -1,  0, -1},
-            {-1,  0, -1, -1,  0,  0, -1, -1,  0, -1},
-            {-1,  0,  0,  0,  0,  0,  0,  0,  0, -1},
-            {-1, -1,  0,  0,  0,  0,  0,  0, -1, -1},
-            {-1, -1, -1,  0,  0,  0,  0, -1, -1, -1},
-            {-1, -1, -1, -1,  0,  0, -1, -1, -1, -1}
-        };
-
     void Awake()
     {
         level = LevelDataManager.Instance.LevelData;
@@ -47,7 +32,11 @@ public class GameBoard : MonoBehaviour
 
     void Start()
     {
-        
+        events.Add(EventName.PointsAdded, new PointsAddedEvent());
+        EventManager.AddInvoker(EventName.PointsAdded, this);
+        events.Add(EventName.Damage, new DamageEvent());
+        EventManager.AddInvoker(EventName.Damage, this);
+
         board = new Transform[width, height];
         Debug.Log("width " + width + "height " + height);
         BuildBoard();
@@ -174,23 +163,28 @@ public class GameBoard : MonoBehaviour
         foreach (Transform block in blocks.transform)
 
         {
-            Vector3 blockPosition = block.transform.position;
-            int x = Mathf.RoundToInt(blockPosition.x);
-            int y = Mathf.RoundToInt(blockPosition.y);
-
-            board[x,y] = block;
-            //y < level.colors[x,0].Length && 
-            if ( !(y >= height - marginBlockY) && level.colors[x,y] != "-1" && board[x,y] != null)
-            {
-                ColorTheBlock(board[x, y], level.colors[x, y], 1f);
-            }
+            CheckIfCorrectlyPlaced(block);
         }
         
     }
 
     public void CheckIfCorrectlyPlaced (Transform block)
-    { 
+    {
+        Vector3 blockPosition = block.transform.position;
+        int x = Mathf.RoundToInt(blockPosition.x);
+        int y = Mathf.RoundToInt(blockPosition.y);
+        board[x, y] = block;
 
+        if (!(y >= height - marginBlockY) && level.colors[x, y] != "-1" && board[x, y] != null)
+        {
+            ColorTheBlock(board[x, y], level.colors[x, y], 1f);
+            events[EventName.PointsAdded].Invoke(1);
+            //gain point
+        } else
+        {
+            events[EventName.Damage].Invoke(1);
+            // lose point
+        }
     }
 
     public int Height

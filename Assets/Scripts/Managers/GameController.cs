@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour
     }
     void Start()
     {
+        EventManager.AddListener(EventName.GameOver, HandleGameOverEvent);
         SoundManager.PlayBackgroundMusic();
         gameBoard = GameObject.FindWithTag("GameBoard").GetComponent<GameBoard>();
         spawner = GameObject.FindWithTag("BlockSpawner").GetComponent<BlockSpawner>();
@@ -64,7 +65,7 @@ public class GameController : MonoBehaviour
             if (gameBoard.IsGameOver(currentBlock))
             {
                 gameOver = true;
-                SoundManager.PlayFX(SoundName.GameOverSound);
+                
             }
             else
             {
@@ -128,4 +129,10 @@ public class GameController : MonoBehaviour
             MakeTheBlockFall();
         }
     }
+
+    void HandleGameOverEvent(int a)
+    {
+        gameOver = true;
+    }
 }
+

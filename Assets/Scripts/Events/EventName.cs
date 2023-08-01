@@ -8,5 +8,6 @@ public enum EventName
     PointsAdded,
     Damage,
     MusicToggleEvent,
-    FxToggleEvent
+    FxToggleEvent,
+    GameOver
 }

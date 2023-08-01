@@ -36,6 +36,7 @@ public static class SoundManager {
               Resources.Load<AudioClip>("BackgroundMusic1"));
         EventManager.AddListener(EventName.MusicToggleEvent, ToggleMusic);
         EventManager.AddListener(EventName.FxToggleEvent, ToggleFX);
+        EventManager.AddListener(EventName.GameOver, HandleGameOver);
     }
 
     /// <summary>
@@ -77,6 +78,15 @@ public static class SoundManager {
         }
 
     }
+
+    static void HandleGameOver(int victory)
+    {
+        audioSource.Stop();
+        musicEnabled = false;
+        PlayFX(SoundName.GameOverSound);
+    }
+
+    
 
     public static void ToggleFX(int b)
     {
