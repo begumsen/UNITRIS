@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EventName 
+public enum EventName
 {
     LevelSelected,
     PointsAdded,
-    Damage
+    Damage,
+    MusicToggleEvent,
+    FxToggleEvent
 }

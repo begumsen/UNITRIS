@@ -188,6 +188,11 @@ public class GameBoard : MonoBehaviour
         
     }
 
+    public void CheckIfCorrectlyPlaced (Transform block)
+    { 
+
+    }
+
     public int Height
     {
         get

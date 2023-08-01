@@ -6,7 +6,7 @@ public class GameAudioSource : MonoBehaviour
 {
     AudioSource audioSource;
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         audioSource = gameObject.AddComponent<AudioSource>();
         if (!SoundManager.Initialized)

@@ -11,7 +11,6 @@ public class LevelDataManager : MonoBehaviour
 
     private void Awake()
     {
-        EventManager.Initialize();
         if(Instance == null)
         {
             Instance = this;

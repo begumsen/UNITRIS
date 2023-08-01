@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour
     }
     void Start()
     {
+        SoundManager.PlayBackgroundMusic();
         gameBoard = GameObject.FindWithTag("GameBoard").GetComponent<GameBoard>();
         spawner = GameObject.FindWithTag("BlockSpawner").GetComponent<BlockSpawner>();
         currentBlock = spawner.SpawnRandomBlock();
@@ -63,6 +64,7 @@ public class GameController : MonoBehaviour
             if (gameBoard.IsGameOver(currentBlock))
             {
                 gameOver = true;
+                SoundManager.PlayFX(SoundName.GameOverSound);
             }
             else
             {
@@ -84,6 +86,7 @@ public class GameController : MonoBehaviour
                 if (gameBoard.IsValidMove(currentBlock, new Vector2(1, 0)))
                 {
                     currentBlock.MoveRight();
+                    SoundManager.PlayFX(SoundName.MoveSound);
                 }
             }
             else if (Input.GetButtonDown("MoveLeft"))
@@ -92,6 +95,7 @@ public class GameController : MonoBehaviour
                 if (gameBoard.IsValidMove(currentBlock, new Vector2(-1, 0)))
                 {
                     currentBlock.MoveLeft();
+                    SoundManager.PlayFX(SoundName.MoveSound);
                 }
             }
             else if (Input.GetButtonDown("Rotate") && currentBlock.canRotate)
@@ -100,6 +104,9 @@ public class GameController : MonoBehaviour
                 if (!gameBoard.IsValidMove(currentBlock, new Vector2(0f, 0f)))
                 {
                     currentBlock.RotateLeft();
+                }else
+                {
+                    SoundManager.PlayFX(SoundName.MoveSound);
                 }
             }
             else if (deltaMoveDown >= moveDownRate)
