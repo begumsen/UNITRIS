@@ -8,6 +8,10 @@ public class LevelDataManager : MonoBehaviour
     public string fileName = "Level1";
     public static LevelDataManager Instance { get; private set; }
     LevelData levelData;
+    public LevelList levelList = new LevelList();
+    string fileNameLevels = "levelJson";
+    TextAsset levelJson;
+    int highScoreBefore = 0;
 
     private void Awake()
     {
@@ -17,6 +21,8 @@ public class LevelDataManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             EventManager.AddListener(EventName.LevelSelected,
             HandleLevelSelectedEvent);
+            levelJson = Resources.Load<TextAsset>(fileNameLevels);
+            levelList = JsonUtility.FromJson<LevelList>(levelJson.text);
         } else
         {
             Destroy(gameObject);
@@ -30,6 +36,8 @@ public class LevelDataManager : MonoBehaviour
     {
         
         levelData = ReadLevelDataFromFile("Level"+ levelNo);
+        highScoreBefore = levelList.levels[levelNo].highScore;
+        Debug.Log(highScoreBefore);
         SceneManager.LoadScene("GameScene");
     }
 
@@ -144,6 +152,14 @@ public class LevelDataManager : MonoBehaviour
         get
         {
             return this.levelData;
+        }
+    }
+
+    public LevelList LevelList
+    {
+        get
+        {
+            return LevelList;
         }
     }
 }

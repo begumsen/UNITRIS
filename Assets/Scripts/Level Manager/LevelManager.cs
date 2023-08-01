@@ -5,24 +5,22 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    LevelList levelList = new LevelList();
-    TextAsset levelJson;
-    string fileName = "levelJson";
+   
     public GameObject levelPrefab;
     public Transform levelContent;
-    // Start is called before the first frame update
-    void Awake()
-    {
-        
-        levelJson = Resources.Load<TextAsset>(fileName);
-        levelList = JsonUtility.FromJson<LevelList>(levelJson.text);
-    }
+    
+   
 
     private void Start()
     {
-        foreach (Level level in levelList.levels)
+        LoadTheLevels();
+    }
+
+    public void LoadTheLevels()
+    {
+        foreach (Level level in LevelDataManager.Instance.levelList.levels)
         {
-            if(levelPrefab != null)
+            if (levelPrefab != null)
             {
                 GameObject newLevel = Instantiate(levelPrefab, levelContent);
                 TMP_Text levelNoText = newLevel.transform.Find("LevelNo").GetComponent<TMP_Text>();
@@ -33,17 +31,11 @@ public class LevelManager : MonoBehaviour
                 highScoreText.text = "High Score: " + level.highScore.ToString();
                 levelButton.levelNo = int.Parse(level.levelNo);
             }
-            
+
         }
     }
 
-    public LevelList LevelList
-    {
-        get
-        {
-            return LevelList;
-        }
-    }
+   
 
 
 }

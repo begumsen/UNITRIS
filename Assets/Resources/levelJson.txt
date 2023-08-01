@@ -2,11 +2,11 @@
   "levels": [
     {
       "levelNo": 0,
-      "highScore": 0
+      "highScore": 10
     },
     {
       "levelNo": 1,
-      "highScore": 0
+      "highScore": 20
     }
   ]
 }
