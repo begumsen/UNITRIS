@@ -23,7 +23,7 @@ public class GameBoard : EventInvoker
 
     void Awake()
     {
-        level = LevelDataManager.Instance.LevelData;
+        level = LevelManager.Instance.LevelData;
         width = level.width;
         height = level.height + marginBlockY;
         
@@ -36,7 +36,8 @@ public class GameBoard : EventInvoker
         EventManager.AddInvoker(EventName.PointsAdded, this);
         events.Add(EventName.Damage, new DamageEvent());
         EventManager.AddInvoker(EventName.Damage, this);
-
+        events.Add(EventName.GameOver, new GameOverEvent());
+        EventManager.AddInvoker(EventName.GameOver, this);
         board = new Transform[width, height];
         Debug.Log("width " + width + "height " + height);
         BuildBoard();
@@ -135,9 +136,17 @@ public class GameBoard : EventInvoker
         foreach (Transform block in blocks.transform)
 
         {
-            if (block.position.y >= height-marginBlockY) return true;
+            if (block.position.y >= height - marginBlockY)
+            {
+                events[EventName.GameOver].Invoke(1);
+                return true;
+            }
         }
-        if (isPatternFull()) return true;
+        if (isPatternFull())
+        {
+            events[EventName.GameOver].Invoke(1);
+            return true;
+        }
         
         return false;
     }
@@ -182,8 +191,13 @@ public class GameBoard : EventInvoker
             //gain point
         } else
         {
-            events[EventName.Damage].Invoke(1);
-            // lose point
+            if(!(y >= height - marginBlockY))
+            {
+                events[EventName.Damage].Invoke(1);
+
+                // lose point
+            }
+
         }
     }
 

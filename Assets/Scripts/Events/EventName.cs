@@ -9,5 +9,8 @@ public enum EventName
     Damage,
     MusicToggleEvent,
     FxToggleEvent,
-    GameOver
+    GameOver,
+    GoalPassed,
+    HighScoreChanged,
+    GoalNotPassed
 }

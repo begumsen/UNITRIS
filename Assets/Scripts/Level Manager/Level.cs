@@ -7,6 +7,7 @@ using UnityEngine;
 public class Level
 {
     public string levelNo;
+    public int goal;
     public int highScore;
 
 }

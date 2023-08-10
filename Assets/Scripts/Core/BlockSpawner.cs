@@ -14,11 +14,11 @@ public class BlockSpawner : MonoBehaviour
     {
         
         gameBoard = GameObject.FindWithTag("GameBoard").GetComponent<GameBoard>();
-        Vector3 newPosition = new Vector3Int((LevelDataManager.Instance.LevelData.width / 2), LevelDataManager.Instance.LevelData.height + 1, 0);
+        Vector3 newPosition = new Vector3Int((LevelManager.Instance.LevelData.width / 2), LevelManager.Instance.LevelData.height + 1, 0);
         // Set the position of the "BlockSpawner" GameObject.
         Debug.Log("newposition" + newPosition);
         transform.position = newPosition;
-        blocks = LevelDataManager.Instance.LevelData.blocks;
+        blocks = LevelManager.Instance.LevelData.blocks;
         
     }
     void Start()

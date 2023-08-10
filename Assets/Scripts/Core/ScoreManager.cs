@@ -7,7 +7,7 @@ using TMPro;
 /// <summary>
 /// The HUD for the game
 /// </summary>
-public class HUD : EventInvoker
+public class ScoreManager: EventInvoker
 {
 
 
@@ -23,12 +23,13 @@ public class HUD : EventInvoker
     Slider healthBar;
     public Image fill;
     public Gradient gradient;
-
+    int goal;
     /// <summary>
     /// Start is called before the first frame update
     /// </summary>
     void Start()
     {
+        goal = LevelManager.Instance.goal;
         health = maxHealth;
         healthBar.maxValue = maxHealth;
         healthBar.value = maxHealth;
@@ -40,9 +41,14 @@ public class HUD : EventInvoker
         scoreText.text = "Score: " + score;
         // add listener for HealthChangedEvent
         EventManager.AddListener(EventName.Damage, HandleHealthChangedEvent);
+        EventManager.AddListener(EventName.GameOver, HandleGameOverEvent);
+        events.Add(EventName.GoalPassed, new GoalPassedEvent());
+        EventManager.AddInvoker(EventName.GoalPassed, this);
+        events.Add(EventName.GoalNotPassed, new GoalNotPassedEvent());
+        EventManager.AddInvoker(EventName.GoalNotPassed, this);
         events.Add(EventName.GameOver, new GameOverEvent());
         EventManager.AddInvoker(EventName.GameOver, this);
-       
+        
     }
 
 
@@ -64,6 +70,7 @@ public class HUD : EventInvoker
     /// <param name="points">points to add</param>
     private void HandlePointsAddedEvent(int points)
     {
+        SoundManager.PlayFX(SoundName.CorrectlyPlacedSound);
         score += points;
         scoreText.text = "Score: " + score;
     }
@@ -78,13 +85,24 @@ public class HUD : EventInvoker
         health -= value;
         healthBar.value = health;
         fill.color = gradient.Evaluate(health / maxHealth);
-
+        SoundManager.PlayFX(SoundName.MisplacedSound);
         if(health == 0)
         {
             events[EventName.GameOver].Invoke(0);
         }
     }
 
-  
+    void HandleGameOverEvent(int a)
+    {
+       if (score > goal)
+        {
+            events[EventName.GoalPassed].Invoke(score);
+        }
+       else if (score < goal)
+        {
+            events[EventName.GoalNotPassed].Invoke(0);
+        }
+
+    }
     #endregion
 }

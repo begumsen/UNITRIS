@@ -1,0 +1,15 @@
+{
+    "initialLockedLevel": 1,
+    "levels": [
+        {
+            "levelNo": "0",
+            "goal": 5,
+            "highScore": 6
+        },
+        {
+            "levelNo": "1",
+            "goal": 30,
+            "highScore": 20
+        }
+    ]
+}

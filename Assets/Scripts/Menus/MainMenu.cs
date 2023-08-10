@@ -11,4 +11,10 @@ public class MainMenu : MonoBehaviour
 
     }
 
+    public void HandleHighScoreEvent()
+    {
+        //MenuManager.GoTo(MenuName.Celebration);
+    }
+
+
 }

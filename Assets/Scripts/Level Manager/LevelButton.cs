@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class LevelButton : EventInvoker
 {
     public int levelNo;
+    bool isLocked = false; 
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +16,9 @@ public class LevelButton : EventInvoker
 
     public void LevelSelectedfromButton()
     {
-        events[EventName.LevelSelected].Invoke(levelNo);
+        if (!isLocked)
+        {
+            events[EventName.LevelSelected].Invoke(levelNo);
+        }
     }
 }
