@@ -10,8 +10,8 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance { get; private set; }
     LevelData levelData;
     public LevelList levelList = new LevelList();
-    string fileNameLevels = "levelJson";
-    TextAsset levelJson;
+    string levelJson;
+    string filePath;
     public int previousHighScore = 0;
     public int goal = 0;
     private bool levelCompletionHandled = false;
@@ -31,8 +31,10 @@ public class LevelManager : MonoBehaviour
             HandleGoalPassedEvent);
             EventManager.AddListener(EventName.GoalNotPassed,
             HandleGoalNotPassedEvent);
-            levelJson = Resources.Load<TextAsset>(fileNameLevels);
-            levelList = JsonUtility.FromJson<LevelList>(levelJson.text);
+
+            filePath = Path.Combine(Application.persistentDataPath, "levelJson.txt");
+            levelJson = File.ReadAllText(filePath);
+            levelList = JsonUtility.FromJson<LevelList>(levelJson);
             initialLockedLevel = levelList.initialLockedLevel;
         } else
         {
@@ -52,7 +54,9 @@ public class LevelManager : MonoBehaviour
             if (isHighScore)
             {
                 //celebration
+                Debug.Log("new highscore");
                 isHighScore = false;
+                MenuManager.GoTo(MenuName.Levels);
             } else
             {
                 MenuManager.GoTo(MenuName.Levels);
@@ -74,11 +78,12 @@ public class LevelManager : MonoBehaviour
 
     void HandleLevelSelectedEvent(int levelNo)
     {
+        Debug.Log("level Selected Event in event manager");
         currentLevel = levelNo;
         levelData = ReadLevelDataFromFile("Level"+ levelNo);
         previousHighScore = levelList.levels[levelNo].highScore;
         goal = levelList.levels[levelNo].goal;
-        Debug.Log(previousHighScore);
+        Debug.Log("Load Scene Event in event manager");
         SceneManager.LoadScene("GameScene");
     }
 
@@ -111,7 +116,7 @@ public class LevelManager : MonoBehaviour
             levelList.levels[levelNo].highScore = newHighScore;
         }
         string updatedJson = JsonUtility.ToJson(levelList, true);
-        File.WriteAllText(Application.dataPath + "/levelsJson.json", updatedJson);
+        File.WriteAllText(filePath, updatedJson);
     }
 
 

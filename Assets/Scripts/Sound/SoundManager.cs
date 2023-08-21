@@ -52,7 +52,6 @@ public static class SoundManager {
 
     public static void PlayBackgroundMusic()
     {
-        if (!musicEnabled) return;
         // if music is playing, stop it
         audioSource.Stop();
 

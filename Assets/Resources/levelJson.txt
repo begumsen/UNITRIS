@@ -1,5 +1,5 @@
 {
-  "initialLockedLevel": 1,
+  "initialLockedLevel": 2,
   "levels": [
     {
       "levelNo": 0,
