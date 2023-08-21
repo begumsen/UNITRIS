@@ -6,7 +6,7 @@ public class MainMenu : MonoBehaviour
 {
     public void HandleLevelsButtonClicked()
     {
-        MenuManager.GoTo(MenuName.Levels);
+        GameFlowManager.GoTo(GameFlowName.Levels);
         SoundManager.PlayFX(SoundName.MenuSelectSound);
 
     }

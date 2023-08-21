@@ -39,6 +39,11 @@ public static class SoundManager {
         EventManager.AddListener(EventName.GameOver, HandleGameOver);
     }
 
+    public static void InitialState()
+    {
+        fxEnabled = true;
+        musicEnabled = true;
+    }
     /// <summary>
     /// Plays the audio clip with the given name
     /// </summary>
@@ -62,6 +67,12 @@ public static class SoundManager {
 
         // start playing
         audioSource.Play();
+    }
+
+    public static void StopBackgroundMusic()
+    {
+        // if music is playing, stop it
+        audioSource.Stop();
     }
 
     public static void ToggleMusic(int a)

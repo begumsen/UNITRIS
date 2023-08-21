@@ -56,10 +56,10 @@ public class LevelManager : MonoBehaviour
                 //celebration
                 Debug.Log("new highscore");
                 isHighScore = false;
-                MenuManager.GoTo(MenuName.Levels);
+                GameFlowManager.GoTo(GameFlowName.Levels);
             } else
             {
-                MenuManager.GoTo(MenuName.Levels);
+                GameFlowManager.GoTo(GameFlowName.Levels);
             }
         }
     }
@@ -78,18 +78,16 @@ public class LevelManager : MonoBehaviour
 
     void HandleLevelSelectedEvent(int levelNo)
     {
-        Debug.Log("level Selected Event in event manager");
         currentLevel = levelNo;
         levelData = ReadLevelDataFromFile("Level"+ levelNo);
         previousHighScore = levelList.levels[levelNo].highScore;
         goal = levelList.levels[levelNo].goal;
-        Debug.Log("Load Scene Event in event manager");
-        SceneManager.LoadScene("GameScene");
+        GameFlowManager.GoTo(GameFlowName.GamePlay);
     }
 
     void HandleGoalNotPassedEvent(int score)
     {
-        SceneManager.LoadScene("GameScene");
+        GameFlowManager.GoTo(GameFlowName.GamePlay);
 
     }
 
@@ -105,7 +103,7 @@ public class LevelManager : MonoBehaviour
                 ChangeAndSaveHighScore(currentLevel, score); // Change high score of levelNo = 0 to 15
                 isHighScore = true;
             }
-            SceneManager.LoadScene("MainMenu");
+            GameFlowManager.GoTo(GameFlowName.MainMenu);
         }
     }
 

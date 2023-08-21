@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public static class MenuManager
+public static class GameFlowManager
 {
 
-    public static void GoTo(MenuName menuName)
+    public static void GoTo(GameFlowName gameFlowName)
     {
-        switch (menuName)
+        switch (gameFlowName)
         {
-            case MenuName.MainMenu:
+            case GameFlowName.MainMenu:
+                SoundManager.StopBackgroundMusic();
                 SceneManager.LoadScene("MainMenu");
                 break;
-            case MenuName.Levels:
+            case GameFlowName.Levels:
                 GameObject mainMenu = GameObject.Find("MenuPanel");
                 if (mainMenu != null)
                 {
@@ -21,9 +22,11 @@ public static class MenuManager
                 }
                 Object.Instantiate(Resources.Load("LevelsPopup"));
                 break;
-            case MenuName.PauseMenu:
-                Object.Instantiate(Resources.Load("PauseMenu"));
+            case GameFlowName.GamePlay:
+                SoundManager.InitialState();
+                SceneManager.LoadScene("GameScene");
                 break;
+            
         }
     }
 }

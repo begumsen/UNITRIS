@@ -17,6 +17,7 @@ public class ToggleIcon : EventInvoker
     // Use this for initialization
     void Start()
     {
+        iconState = true;
         m_image = GetComponent<Image>();
         m_image.sprite = (iconState) ? enabledIcon : disabledIcon;
         events.Add(EventName.MusicToggleEvent, new MusicToggleEvent());
