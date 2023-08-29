@@ -7,5 +7,7 @@ public enum GameFlowName
     MainMenu,
     Levels,
     PauseMenu,
-    GamePlay
+    GamePlay,
+    LevelCompleted,
+    LevelFailed
 }

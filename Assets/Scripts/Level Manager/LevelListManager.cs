@@ -9,16 +9,14 @@ public class LevelListManager : MonoBehaviour
     public GameObject levelPrefab;
     public Transform levelContent;
     
-   
-
     private void Start()
     {
         LoadTheLevels();
     }
 
-    public void LoadTheLevels()
+    private void LoadTheLevels()
     {
-        foreach (Level level in LevelManager.Instance.levelList.levels)
+        foreach (Level level in LevelManager.Instance.dataManager.levelsList.levels)
         {
             if (levelPrefab != null)
             {
@@ -33,6 +31,13 @@ public class LevelListManager : MonoBehaviour
             }
 
         }
+        EventManager.AddListener(EventName.LevelSelected, HandleLevelSelect);
+    }
+
+    private void HandleLevelSelect(int a)
+    {
+     
+        Destroy(gameObject);
     }
 
    

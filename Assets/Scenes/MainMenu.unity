@@ -336,11 +336,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 252ab8ae82a484f699de251873d68259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileName: Level1
-  levelList:
-    initialLockedLevel: 1
-    levels: []
-  previousHighScore: 0
   goal: 0
 --- !u!4 &293732908
 Transform:

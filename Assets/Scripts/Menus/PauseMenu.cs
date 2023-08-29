@@ -25,6 +25,7 @@ public class PauseMenu : MonoBehaviour
 
     public void MainMenu()
     {
+        Time.timeScale = 1;
         GameFlowManager.GoTo(GameFlowName.MainMenu);
     }
 }

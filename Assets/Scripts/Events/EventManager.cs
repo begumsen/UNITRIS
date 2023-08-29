@@ -37,11 +37,6 @@ public static class EventManager
         invokers[name].Add(invoker);
         foreach(UnityAction<int> listener in listeners[name])
         {
-            if(name == EventName.LevelSelected)
-            {
-                Debug.Log(listener);
-            }
-
             invoker.AddListener(name, listener);
         }
     }

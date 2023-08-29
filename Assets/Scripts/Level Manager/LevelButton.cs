@@ -10,7 +10,6 @@ public class LevelButton : EventInvoker
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("added level selceted event");
         events.Add(EventName.LevelSelected, new LevelSelectedEvent());
         EventManager.AddInvoker(EventName.LevelSelected, this);
     }
@@ -19,7 +18,6 @@ public class LevelButton : EventInvoker
     {
         if (true) //!isLocked
         {
-            Debug.Log(levelNo + " is selected");
             events[EventName.LevelSelected].Invoke(levelNo);
         }
     }

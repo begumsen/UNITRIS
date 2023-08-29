@@ -94,7 +94,7 @@ public class ScoreManager: EventInvoker
 
     void HandleGameOverEvent(int a)
     {
-       if (score > goal)
+       if (score >= goal)
         {
             events[EventName.GoalPassed].Invoke(score);
         }
