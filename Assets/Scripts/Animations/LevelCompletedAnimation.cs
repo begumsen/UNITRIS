@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.UIElements;
 
-public class LevelCompletedMenu : MonoBehaviour
+public class LevelCompletedAnimation : BaseAnimation
 {
-    [SerializeField] GameObject label, mainPanel, score, goal, shadePanel;
+    [SerializeField] GameObject label, mainPanel, scoreLabel, goalLabel, shadePanel;
 
-    private void Start()
+    public override void StartAnim(int a)
     {
+        TMP_Text scoreLabelText = scoreLabel.GetComponent<TMP_Text>();
+        scoreLabelText.text = "Score: " + LevelManager.Instance.FinalScore.ToString();
+        TMP_Text goalLabelText = goalLabel.GetComponent<TMP_Text>();
+        goalLabelText.text = "Goal: " + LevelManager.Instance.Goal.ToString();
+
         AnimateMenu();
     }
     // Start is called before the first frame update
@@ -25,13 +31,13 @@ public class LevelCompletedMenu : MonoBehaviour
     {
 
         LeanTween.moveLocal(mainPanel, Vector3.zero, 0.8f).setEase(LeanTweenType.easeOutCirc);
-        LeanTween.scale(score, new Vector3(1f, 1f, 1f), 0.6f).setDelay(0.8f);
-        LeanTween.scale(goal, new Vector3(1f, 1f, 1f), 0.6f).setDelay(1f);
-        LeanTween.scale(goal, new Vector3(1f, 1f, 1f), 1f).setDelay(3.2f).setOnComplete(HidePanel);
+        LeanTween.scale(scoreLabel, new Vector3(1f, 1f, 1f), 0.6f).setDelay(0.8f);
+        LeanTween.scale(goalLabel, new Vector3(1f, 1f, 1f), 0.6f).setDelay(1f);
+        LeanTween.scale(goalLabel, new Vector3(1f, 1f, 1f), 1f).setDelay(3.2f).setOnComplete(HidePanel);
     }
 
     void HidePanel()
     {
-        Destroy(transform.parent.gameObject);
+        events[EventName.AnimationCompleted].Invoke((int)AnimationName.LevelCompleted);
     }
 }

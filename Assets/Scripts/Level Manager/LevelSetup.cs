@@ -11,7 +11,7 @@ public class LevelSetup : MonoBehaviour
 
     private void Awake()
     {
-        bool isFirstPlay = PlayerPrefs.GetInt(FIRST_PLAY_KEY, 0) == 0;
+        bool isFirstPlay = PlayerPrefs.GetInt(FIRST_PLAY_KEY, 0) == 1;
 
         if (isFirstPlay)
         {

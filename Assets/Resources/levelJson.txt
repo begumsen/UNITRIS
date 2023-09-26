@@ -1,5 +1,5 @@
 {
-  "initialLockedLevel": 2,
+  "initialLockedLevel": 1,
   "levels": [
     {
       "levelNo": 0,
@@ -10,6 +10,16 @@
       "levelNo": 1,
       "goal": 30,
       "highScore": 20
+    },
+    {
+      "levelNo": 2,
+      "goal": 32,
+      "highScore": 10
+    },
+    {
+      "levelNo": 3,
+      "goal": 33,
+      "highScore": 25
     }
   ]
 }

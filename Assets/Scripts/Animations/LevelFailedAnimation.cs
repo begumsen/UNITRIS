@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.UIElements;
 
-public class LevelFailedMenu : MonoBehaviour
+public class LevelFailedAnimation : BaseAnimation
 {
     [SerializeField] GameObject label, mainPanel, score, goal, shadePanel, mainMenuButton, replayButton;
 
-    private void Start()
+    public override void StartAnim(int a)
     {
+        TMP_Text scoreLabelText = score.GetComponent<TMP_Text>();
+        scoreLabelText.text = "Score: " + LevelManager.Instance.FinalScore.ToString();
+        TMP_Text goalLabelText = goal.GetComponent<TMP_Text>();
+        goalLabelText.text = "Goal: " + LevelManager.Instance.Goal.ToString();
         AnimateMenu();
     }
     // Start is called before the first frame update

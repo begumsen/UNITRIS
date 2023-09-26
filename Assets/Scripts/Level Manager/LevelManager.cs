@@ -4,20 +4,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : EventInvoker
 {
-    string fileName = "Level1";
     public static LevelManager Instance { get; private set; }
     LevelData levelData;
 
     int previousHighScore = 0;
-    public int goal = 0;
-    private bool levelCompletionHandled = false;
-    bool isHighScore = false;
-    int initialLockedLevel;
+    int levelGoal = 0;
+    int finalScore = 0;
     int currentLevel;
     public DataManager dataManager;
-    bool isGameOver;
 
     private void Awake()
     {
@@ -27,10 +23,12 @@ public class LevelManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             EventManager.AddListener(EventName.LevelSelected,
             HandleLevelSelectedEvent);
-            EventManager.AddListener(EventName.GoalPassed,
-            HandleGoalPassedEvent);
-            EventManager.AddListener(EventName.GoalNotPassed,
-            HandleGoalNotPassedEvent);
+            EventManager.AddListener(EventName.ScoreFinalized,
+            HandleScoreFinalized);
+            events.Add(EventName.GoalPassed, new GoalPassedEvent());
+            EventManager.AddInvoker(EventName.GoalPassed, this);
+            events.Add(EventName.GoalNotPassed, new GoalNotPassedEvent());
+            EventManager.AddInvoker(EventName.GoalNotPassed, this);
             dataManager = new DataManager();
         } else
         {
@@ -38,61 +36,39 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "MainMenu" && levelCompletionHandled && isGameOver )
-        {
-            levelCompletionHandled = false;
-            // Show celebration particles and animation
-            if (isHighScore)
-            {
-                //celebration
-                Debug.Log("new highscore");
-                isHighScore = false;
-                GameFlowManager.GoTo(GameFlowName.Levels);
-            } else
-            {
-                GameFlowManager.GoTo(GameFlowName.Levels);
-            }
-        }
-    }
-
-    private void OnEnable()
-    {
-        // Subscribe to the sceneLoaded event
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
 
     void HandleLevelSelectedEvent(int levelNo)
     {
-        isGameOver = false;
         currentLevel = levelNo;
         levelData = dataManager.ReadLevelDataFromFile("Level"+ levelNo);
         previousHighScore = dataManager.getPreviousHighScore(levelNo);
-        goal = dataManager.getGoal(levelNo);
+        levelGoal = dataManager.getGoal(levelNo);
         GameFlowManager.GoTo(GameFlowName.GamePlay);
-        if (dataManager.initialLockedLevel > levelNo)
-        {
-            levelCompletionHandled = true;
-        }
     }
 
-    void HandleGoalNotPassedEvent(int score)
+    void HandleScoreFinalized (int score)
     {
-        isGameOver = true;
-        GameFlowManager.GoTo(GameFlowName.LevelFailed);
-
+        finalScore = score;
+        if (score >= levelGoal)
+        {
+            HandleGoalPassedEvent(score);
+            events[EventName.GoalPassed].Invoke(0);
+        }
+        else if (score < levelGoal)
+        {
+            events[EventName.GoalNotPassed].Invoke(0);
+        }
     }
 
     public void HandleGoalPassedEvent(int score)
     {
-        isGameOver = true;
-        GameFlowManager.GoTo(GameFlowName.LevelCompleted);
         if (score > previousHighScore) {
           dataManager.ChangeAndSaveHighScore(currentLevel, score); 
-          isHighScore = true;
-         }
-         //GameFlowManager.GoTo(GameFlowName.MainMenu);
+        }
+        if(currentLevel == InitialLockedLevel - 1)
+        {
+          dataManager.IncrementInitialLockedLevel();
+        }
     }
 
     public LevelData LevelData
@@ -108,6 +84,30 @@ public class LevelManager : MonoBehaviour
         get
         {
             return LevelList;
+        }
+    }
+
+    public int Goal
+    {
+        get
+        {
+            return levelGoal;
+        }
+    }
+
+    public int FinalScore
+    {
+        get
+        {
+            return finalScore;
+        }
+    }
+
+    public int InitialLockedLevel
+    {
+        get
+        {
+            return dataManager.initialLockedLevel;
         }
     }
 }

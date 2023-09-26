@@ -2,59 +2,59 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+using System.Threading.Tasks;
+
 
 public static class GameFlowManager
 {
-    private static bool isMainMenuActive = true;
+
     static GameObject mainMenu;
+    static string levelToLoad;
 
-    static GameFlowManager()
+    public static void Initialize()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded; // Subscribe to the event
-    }
-
-    private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-
-        if (scene.name == "MainMenu")
-        {
-            if (!isMainMenuActive)
-            {
-               // mainMenu.SetActive(true);
-                isMainMenuActive = true;
-            }
-        }
-
+        
     }
 
     public static void GoTo(GameFlowName gameFlowName)
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
         switch (gameFlowName)
         {
+
             case GameFlowName.MainMenu:
+                EventManager.TriggerEvent(EventName.Fade, 0);
                 SoundManager.StopBackgroundMusic();
-                SceneManager.LoadScene("MainMenu");
+                levelToLoad = "MainMenu";
                 break;
             case GameFlowName.Levels:
                 if (mainMenu == null)
                 {
                     mainMenu = GameObject.Find("MenuPanel");
                 }
-                Object.Instantiate(Resources.Load("LevelsPopup"));
+                Object.Instantiate(Resources.Load("Prefabs/LevelsPopup"));
                 mainMenu.SetActive(false);
-                isMainMenuActive = false;
                 break;
             case GameFlowName.GamePlay:
+                EventManager.TriggerEvent(EventName.Fade, 0);
                 SoundManager.InitialState();
-                SceneManager.LoadScene("GameScene");
-                break;
-            case GameFlowName.LevelCompleted:
-                Object.Instantiate(Resources.Load("LevelCompleted"));
-                break;
-            case GameFlowName.LevelFailed:
-                Object.Instantiate(Resources.Load("LevelFailed"));
+                levelToLoad = "GameScene";
                 break;
         }
     }
+
+    public static void HandleSceneChange()
+    {
+        Debug.Log("HandleSceneChange");
+        SceneManager.LoadScene(levelToLoad);
+    }
+
+    private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        EventManager.TriggerEvent(EventName.Fade, 1);
+    }
+
 
 }

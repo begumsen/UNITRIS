@@ -9,5 +9,6 @@ public enum GameFlowName
     PauseMenu,
     GamePlay,
     LevelCompleted,
-    LevelFailed
+    LevelFailed,
+    HighScore
 }

@@ -29,7 +29,7 @@ public class ScoreManager: EventInvoker
     /// </summary>
     void Start()
     {
-        goal = LevelManager.Instance.goal;
+      
         health = maxHealth;
         healthBar.maxValue = maxHealth;
         healthBar.value = maxHealth;
@@ -42,10 +42,8 @@ public class ScoreManager: EventInvoker
         // add listener for HealthChangedEvent
         EventManager.AddListener(EventName.Damage, HandleHealthChangedEvent);
         EventManager.AddListener(EventName.GameOver, HandleGameOverEvent);
-        events.Add(EventName.GoalPassed, new GoalPassedEvent());
-        EventManager.AddInvoker(EventName.GoalPassed, this);
-        events.Add(EventName.GoalNotPassed, new GoalNotPassedEvent());
-        EventManager.AddInvoker(EventName.GoalNotPassed, this);
+        events.Add(EventName.ScoreFinalized, new ScoreFinalizedEvent());
+        EventManager.AddInvoker(EventName.ScoreFinalized, this);
         events.Add(EventName.GameOver, new GameOverEvent());
         EventManager.AddInvoker(EventName.GameOver, this);
         
@@ -94,15 +92,7 @@ public class ScoreManager: EventInvoker
 
     void HandleGameOverEvent(int a)
     {
-       if (score >= goal)
-        {
-            events[EventName.GoalPassed].Invoke(score);
-        }
-       else if (score < goal)
-        {
-            events[EventName.GoalNotPassed].Invoke(0);
-        }
-
+        events[EventName.ScoreFinalized].Invoke(score);
     }
     #endregion
 }

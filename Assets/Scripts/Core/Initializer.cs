@@ -8,5 +8,6 @@ public class Initializer : MonoBehaviour
     void Awake()
     {
         EventManager.Initialize();
+        GameFlowManager.Initialize();
     }
 }

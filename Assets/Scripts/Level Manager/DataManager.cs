@@ -57,9 +57,11 @@ public class DataManager
         File.WriteAllText(filePath, updatedJson);
     }
 
-    private void updateLevelList()
+    public void IncrementInitialLockedLevel()
     {
-        // after a level is passed or new highscore is achieved update the levelList
+        levelList.initialLockedLevel++;
+        string updatedJson = JsonUtility.ToJson(levelList, true);
+        File.WriteAllText(filePath, updatedJson);
     }
 
     public LevelData getLevelData(string fileName)

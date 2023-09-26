@@ -12,5 +12,8 @@ public enum EventName
     GameOver,
     GoalPassed,
     HighScoreChanged,
-    GoalNotPassed
+    GoalNotPassed,
+    ScoreFinalized,
+    AnimationCompleted,
+    Fade
 }

@@ -603,8 +603,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3165575906688165753}
-        m_TargetAssemblyTypeName: LevelFailedMenu, Assembly-CSharp
+      - m_Target: {fileID: 5066580877102290214}
+        m_TargetAssemblyTypeName: LevelFailedAnimation, Assembly-CSharp
         m_MethodName: MainMenu
         m_Mode: 1
         m_Arguments:
@@ -627,6 +627,7 @@ GameObject:
   - component: {fileID: 2950265480166327542}
   - component: {fileID: 6161899506774891517}
   - component: {fileID: 2795439995289144748}
+  - component: {fileID: 5066580877102290214}
   m_Layer: 5
   m_Name: LevelFailed
   m_TagString: Untagged
@@ -718,6 +719,25 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5066580877102290214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3085080588971180116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1ea7aa06d888407bbafed220e21d9df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  label: {fileID: 4119002354830480533}
+  mainPanel: {fileID: 4695353349974324349}
+  score: {fileID: 2416493991439645714}
+  goal: {fileID: 918454074817083542}
+  shadePanel: {fileID: 1917065713649460154}
+  mainMenuButton: {fileID: 3017354316744396216}
+  replayButton: {fileID: 3216709707436433174}
 --- !u!1 &3216709707436433174
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,8 +860,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3165575906688165753}
-        m_TargetAssemblyTypeName: LevelFailedMenu, Assembly-CSharp
+      - m_Target: {fileID: 5066580877102290214}
+        m_TargetAssemblyTypeName: LevelFailedAnimation, Assembly-CSharp
         m_MethodName: Replay
         m_Mode: 1
         m_Arguments:
@@ -939,7 +959,6 @@ GameObject:
   - component: {fileID: 5357587701890031432}
   - component: {fileID: 6517869740521666180}
   - component: {fileID: 1777357792881185146}
-  - component: {fileID: 3165575906688165753}
   m_Layer: 5
   m_Name: LevelFailedPanel
   m_TagString: Untagged
@@ -1008,25 +1027,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3165575906688165753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4622325386901877633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1ea7aa06d888407bbafed220e21d9df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  label: {fileID: 4119002354830480533}
-  mainPanel: {fileID: 4695353349974324349}
-  score: {fileID: 2416493991439645714}
-  goal: {fileID: 918454074817083542}
-  shadePanel: {fileID: 1917065713649460154}
-  mainMenuButton: {fileID: 3017354316744396216}
-  replayButton: {fileID: 3216709707436433174}
 --- !u!1 &4695353349974324349
 GameObject:
   m_ObjectHideFlags: 0

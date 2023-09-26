@@ -49,4 +49,15 @@ public static class EventManager
             invoker.AddListener(name, listener);
         }
     }
+
+    public static void TriggerEvent(EventName name, int parameter)
+    {
+        if (listeners.ContainsKey(name))
+        {
+            foreach (var listener in listeners[name])
+            {
+                listener.Invoke(parameter);
+            }
+        }
+    }
 }
