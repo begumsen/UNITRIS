@@ -63,7 +63,7 @@ public class GameBoard : EventInvoker
             // the border of the board
             GameObject border = Instantiate(emptySquare, new Vector3(width / 2f - 0.5f, (height - marginBlockY + 4) / 2f - 0.5f, 10), Quaternion.identity) as GameObject;
             SpriteRenderer spriteRenderer = border.GetComponent<SpriteRenderer>();
-            spriteRenderer.size = new Vector2(width + 0.3f, height - marginBlockY + 4 + 0.3f);
+            spriteRenderer.size = new Vector2(width + 0.5f, height - marginBlockY + 4 + 0.5f);
             //ColorTheBlock(border.transform, "#282828", 0.4f);
 
             for (int y = 0; y < height-marginBlockY; y++)

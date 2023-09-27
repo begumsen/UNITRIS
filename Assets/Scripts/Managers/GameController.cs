@@ -23,6 +23,8 @@ public class GameController : MonoBehaviour
     //make the game end
     bool gameOver = false;
 
+    Ghost m_ghost;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -35,6 +37,7 @@ public class GameController : MonoBehaviour
         SoundManager.PlayBackgroundMusic();
         gameBoard = GameObject.FindWithTag("GameBoard").GetComponent<GameBoard>();
         spawner = GameObject.FindWithTag("BlockSpawner").GetComponent<BlockSpawner>();
+        m_ghost = GameObject.FindObjectOfType<Ghost>();
         currentBlock = spawner.SpawnRandomBlock();
         
     }
@@ -52,6 +55,14 @@ public class GameController : MonoBehaviour
 
     }
 
+    void LateUpdate()
+    {
+        if (m_ghost)
+        {
+            m_ghost.DrawGhost(currentBlock, gameBoard);
+        }
+    }
+
     void MakeTheBlockFall()
     {
         if (gameBoard.IsValidMove(currentBlock, new Vector2(0, -1)))
@@ -61,6 +72,10 @@ public class GameController : MonoBehaviour
         }
         else
         {
+            if (m_ghost)
+            {
+                m_ghost.Reset();
+            }
             gameBoard.PlaceBlockToBoard(currentBlock);
             if (gameBoard.IsGameOver(currentBlock))
             {
