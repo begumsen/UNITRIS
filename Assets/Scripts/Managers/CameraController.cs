@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
 
     private Camera mainCamera;
 
-    private void Start()
+    private void Awake()
     {
         mainCamera = Camera.main;
 
@@ -21,10 +21,12 @@ public class CameraController : MonoBehaviour
         {
             Debug.LogWarning("No board found with the 'Board' tag.");
         }
+        EventManager.AddListener(EventName.BoardIsFinalized, HandleCameraAdjustment);
     }
 
-    private void Update()
+    private void HandleCameraAdjustment(int a)
     {
+
         if (boardTransform == null)
         {
             return;
@@ -37,13 +39,14 @@ public class CameraController : MonoBehaviour
         float targetCameraSize = CalculateCameraSize(boardBounds);
 
         // Calculate the desired camera position, considering the padding and placing the board at the bottom
-        float cameraYPosition = targetCameraSize-1;
+        float cameraYPosition = targetCameraSize - 1;
 
         // Move the camera to the center of the board with the board at the bottom of the camera's view
-        Vector3 targetCameraPosition = new Vector3(boardBounds.center.x+1.5f, cameraYPosition, mainCamera.transform.position.z);
+        Vector3 targetCameraPosition = new Vector3(boardBounds.center.x + 1.5f, cameraYPosition, mainCamera.transform.position.z);
 
         mainCamera.transform.position = targetCameraPosition;
         mainCamera.orthographicSize = targetCameraSize;
+        Debug.Log("here2");
     }
 
     private Bounds CalculateBoardBounds()

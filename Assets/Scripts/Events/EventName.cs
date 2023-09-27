@@ -15,5 +15,6 @@ public enum EventName
     GoalNotPassed,
     ScoreFinalized,
     AnimationCompleted,
-    Fade
+    Fade,
+    BoardIsFinalized
 }

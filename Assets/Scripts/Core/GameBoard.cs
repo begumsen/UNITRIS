@@ -85,7 +85,7 @@ public class GameBoard : EventInvoker
                 }
             }
         }
-       
+       EventManager.TriggerEvent(EventName.BoardIsFinalized,0);
 
     }
 
