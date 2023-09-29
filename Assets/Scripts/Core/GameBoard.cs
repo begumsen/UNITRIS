@@ -19,10 +19,13 @@ public class GameBoard : EventInvoker
     // grid of Objects
     public Transform [,] board;
 
+    ParticleController particleController;
+
     LevelData level;
 
     void Awake()
     {
+        particleController = new ParticleController();
         level = LevelManager.Instance.LevelData;
         width = level.width;
         height = level.height + marginBlockY;
@@ -39,7 +42,6 @@ public class GameBoard : EventInvoker
         events.Add(EventName.GameOver, new GameOverEvent());
         EventManager.AddInvoker(EventName.GameOver, this);
         board = new Transform[width, height];
-        Debug.Log("width " + width + "height " + height);
         BuildBoard();
 
     }
@@ -103,6 +105,8 @@ public class GameBoard : EventInvoker
         }
         
     }
+
+
 
     public bool IsValidMove(Block blocks, Vector2 direction)
     {
@@ -186,6 +190,7 @@ public class GameBoard : EventInvoker
 
         if (!(y >= height - marginBlockY) && level.colors[x, y] != "-1" && board[x, y] != null)
         {
+            particleController.PlaceParticleFX(x, y, true);
             ColorTheBlock(board[x, y], level.colors[x, y], 1f);
             events[EventName.PointsAdded].Invoke(1);
             //gain point
@@ -193,6 +198,7 @@ public class GameBoard : EventInvoker
         {
             if(!(y >= height - marginBlockY))
             {
+                particleController.PlaceParticleFX(x, y, false);
                 events[EventName.Damage].Invoke(1);
 
                 // lose point

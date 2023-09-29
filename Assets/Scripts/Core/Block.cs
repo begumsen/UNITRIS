@@ -5,9 +5,26 @@ public class Block : MonoBehaviour {
 
 	// turn this property off if you don't want the shape to rotate (Shape O)
 	public bool canRotate = true;
+	public Color color;
 
-	// general move method
-	void Move(Vector3 moveDirection)
+
+    private void Start()
+    {
+        foreach (Transform child in transform)
+        {
+            // Try to get the SpriteRenderer component from the child
+            SpriteRenderer childSpriteRenderer = child.GetComponent<SpriteRenderer>();
+
+            if (childSpriteRenderer != null)
+            {
+                // Get the color of the first child's SpriteRenderer
+                color = childSpriteRenderer.color;
+                break;
+            }
+        }
+    }
+    // general move method
+    void Move(Vector3 moveDirection)
 	{
 		transform.position += moveDirection;
 	}

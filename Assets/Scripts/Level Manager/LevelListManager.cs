@@ -27,15 +27,19 @@ public class LevelListManager : MonoBehaviour
                 TMP_Text levelNoText = newLevel.transform.Find("LevelNo").GetComponent<TMP_Text>();
                 TMP_Text highScoreText = newLevel.transform.Find("HighScore").GetComponent<TMP_Text>();
                 LevelButton levelButton = newLevel.transform.Find("PlayButton").GetComponent<LevelButton>();
+                TMP_Text playText = levelButton.transform.Find("PlayText").GetComponent<TMP_Text>();
+                Image lockImage = levelButton.transform.Find("Lock").GetComponent<Image>();
                 Image buttonImage = levelButton.GetComponent<Image>();
                 // Check if the Image component is found
                 if (LevelManager.Instance.InitialLockedLevel > int.Parse(level.levelNo))
                 {
-                    buttonImage.color = Color.green; // Change to the desired color
+                    playText.text = "PLAY";
+                    lockImage.enabled = false;
                 }
                 else
                 {
-                    buttonImage.color = Color.red;
+                    playText.text = "";
+                    lockImage.enabled = true;
                 }
                 // Set the LevelNo and HighScore texts using the levelInfo data
                 levelNoText.text = "Level " + level.levelNo.ToString() + " - Goal: " + level.goal.ToString();

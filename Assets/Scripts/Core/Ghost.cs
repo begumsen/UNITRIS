@@ -18,7 +18,9 @@ public class Ghost : MonoBehaviour
 
             foreach (SpriteRenderer r in allRenderers)
             {
-                r.color = m_color;
+                
+                r.color = new Color(originalShape.color.r, originalShape.color.g, originalShape.color.b, 0.4f);
+                
             }
 
         }
@@ -45,7 +47,6 @@ public class Ghost : MonoBehaviour
     public void Reset()
     {
         Destroy(m_ghostShape.gameObject);
-
     }
 
 }

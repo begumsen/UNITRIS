@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
     // currently block
     Block currentBlock;
 
-    float moveDownRate = 1f;
+    float moveDownRate = 1.6f;
     float deltaMoveDown = 0;
     
     //make the object directly fall
@@ -57,7 +57,7 @@ public class GameController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (m_ghost)
+        if (m_ghost && !gameOver)
         {
             m_ghost.DrawGhost(currentBlock, gameBoard);
         }
@@ -80,7 +80,6 @@ public class GameController : MonoBehaviour
             if (gameBoard.IsGameOver(currentBlock))
             {
                 gameOver = true;
-                
             }
             else
             {
@@ -147,6 +146,10 @@ public class GameController : MonoBehaviour
 
     void HandleGameOverEvent(int a)
     {
+        if (m_ghost)
+        {
+            m_ghost.Reset();
+        }
         gameOver = true;
     }
 }

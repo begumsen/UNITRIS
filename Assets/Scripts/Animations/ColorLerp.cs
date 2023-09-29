@@ -11,7 +11,7 @@ public class ColorLerp : MonoBehaviour
     [SerializeField] private Color[] colors;
     int index = 0;
     float changer;
-    float lerpTime = 0.8f;
+    float lerpTime = 1.2f;
     void Start()
     {
         image = GetComponent<Image>();
