@@ -18,7 +18,6 @@ public class AnimationManager: MonoBehaviour
             EventManager.AddListener(EventName.GoalPassed, HandleGoalPassed);
             EventManager.AddListener(EventName.GoalNotPassed, HandleGoalNotPassed);
             EventManager.AddListener(EventName.AnimationCompleted, HandleAnimationCompleted);
-            Debug.Log("added listener");
             EventManager.AddListener(EventName.Fade, HandleFade);
         } else
         {

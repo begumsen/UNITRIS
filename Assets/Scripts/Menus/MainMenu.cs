@@ -11,4 +11,10 @@ public class MainMenu : MonoBehaviour
 
     }
 
+    public void HandleCreateNewLevelButtonIsClicked()
+    {
+        GameFlowManager.GoTo(GameFlowName.CreateLevel);
+        SoundManager.PlayFX(SoundName.MenuSelectSound);
+    }
+
 }

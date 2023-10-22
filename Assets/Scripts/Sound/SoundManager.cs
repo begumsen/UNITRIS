@@ -23,17 +23,17 @@ public static class SoundManager {
         initialized = true;
         audioSource = source;
         audioClips.Add(SoundName.MoveSound,
-            Resources.Load<AudioClip>("MoveSound"));
+            Resources.Load<AudioClip>("Sounds/MoveSound"));
         audioClips.Add(SoundName.GameOverSound,
-            Resources.Load<AudioClip>("GameOverSound"));
+            Resources.Load<AudioClip>("Sounds/GameOverSound"));
         audioClips.Add(SoundName.CorrectlyPlacedSound,
-             Resources.Load<AudioClip>("CorrectlyPlacedSound"));
+             Resources.Load<AudioClip>("Sounds/CorrectlyPlacedSound"));
         audioClips.Add(SoundName.MisplacedSound,
-             Resources.Load<AudioClip>("MisplacedSound"));
+             Resources.Load<AudioClip>("Sounds/MisplacedSound"));
         audioClips.Add(SoundName.MenuSelectSound,
-              Resources.Load<AudioClip>("MenuSelectSound"));
+              Resources.Load<AudioClip>("Sounds/MenuSelectSound"));
         audioClips.Add(SoundName.BackgroundMusic,
-              Resources.Load<AudioClip>("BackgroundMusic1"));
+              Resources.Load<AudioClip>("Sounds/BackgroundMusic1"));
         EventManager.AddListener(EventName.MusicToggleEvent, ToggleMusic);
         EventManager.AddListener(EventName.FxToggleEvent, ToggleFX);
         EventManager.AddListener(EventName.GameOver, HandleGameOver);

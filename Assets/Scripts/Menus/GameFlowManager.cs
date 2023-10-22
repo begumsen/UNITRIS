@@ -41,12 +41,19 @@ public static class GameFlowManager
                 SoundManager.InitialState();
                 levelToLoad = "GameScene";
                 break;
+            case GameFlowName.CreateLevel:
+                EventManager.TriggerEvent(EventName.Fade, 0);
+                levelToLoad = "CreateNewLevel";
+                break;
+            case GameFlowName.CustomizeLevel:
+                EventManager.TriggerEvent(EventName.Fade, 0);
+                levelToLoad = "CustomizeNewLevel";
+                break;
         }
     }
 
     public static void HandleSceneChange()
     {
-        Debug.Log("HandleSceneChange");
         SceneManager.LoadScene(levelToLoad);
     }
 

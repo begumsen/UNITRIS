@@ -4,13 +4,16 @@ public class CameraController : MonoBehaviour
 {
     private Transform boardTransform; // Private reference to the board's transform
     public float padding = 4f; // Extra padding around the board
-
+    [SerializeField]
+    Canvas background;
     private Camera mainCamera;
+    private float initialSize;
+    private float scaleFactor;
 
     private void Awake()
     {
         mainCamera = Camera.main;
-
+        initialSize = mainCamera.orthographicSize;
         // Find the board by tag (assuming you tagged your board GameObject with "Board")
         GameObject boardObject = GameObject.FindWithTag("GameBoard");
         if (boardObject != null)
@@ -21,14 +24,16 @@ public class CameraController : MonoBehaviour
         {
             Debug.LogWarning("No board found with the 'Board' tag.");
         }
+        Debug.Log("add listener");
         EventManager.AddListener(EventName.BoardIsFinalized, HandleCameraAdjustment);
     }
 
     private void HandleCameraAdjustment(int a)
     {
-
+        Debug.Log("handle adjustment");
         if (boardTransform == null)
         {
+            Debug.Log("can't handle ");
             return;
         }
 
@@ -46,7 +51,16 @@ public class CameraController : MonoBehaviour
 
         mainCamera.transform.position = targetCameraPosition;
         mainCamera.orthographicSize = targetCameraSize;
-        Debug.Log("here2");
+        scaleFactor = mainCamera.orthographicSize / initialSize;
+
+
+    }
+
+    private void ChangeBackgroundSize()
+    {
+        RectTransform canvasRect = background.GetComponent<RectTransform>();
+        canvasRect.position = mainCamera.transform.position;
+        canvasRect.sizeDelta = new Vector2(canvasRect.sizeDelta.x*scaleFactor, canvasRect.sizeDelta.y * scaleFactor);
     }
 
     private Bounds CalculateBoardBounds()

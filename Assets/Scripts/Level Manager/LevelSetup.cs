@@ -11,7 +11,7 @@ public class LevelSetup : MonoBehaviour
 
     private void Awake()
     {
-        bool isFirstPlay = PlayerPrefs.GetInt(FIRST_PLAY_KEY, 0) == 1;
+        bool isFirstPlay = PlayerPrefs.GetInt(FIRST_PLAY_KEY, 0) == 0;
 
         if (isFirstPlay)
         {
@@ -22,7 +22,7 @@ public class LevelSetup : MonoBehaviour
 
     private void LoadAndSaveJSON()
     {
-        TextAsset jsonAsset = Resources.Load<TextAsset>(JSON_FILE_NAME);
+        TextAsset jsonAsset = Resources.Load<TextAsset>("Levels/"+JSON_FILE_NAME);
         if (jsonAsset != null)
         {
             string json = jsonAsset.text;

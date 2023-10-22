@@ -10,5 +10,7 @@ public enum GameFlowName
     GamePlay,
     LevelCompleted,
     LevelFailed,
-    HighScore
+    HighScore,
+    CreateLevel,
+    CustomizeLevel
 }

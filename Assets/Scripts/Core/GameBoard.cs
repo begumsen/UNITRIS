@@ -87,7 +87,8 @@ public class GameBoard : EventInvoker
                 }
             }
         }
-       EventManager.TriggerEvent(EventName.BoardIsFinalized,0);
+        Debug.Log("create listener");
+        EventManager.TriggerEvent(EventName.BoardIsFinalized,0);
 
     }
 

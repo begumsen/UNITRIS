@@ -73,6 +73,10 @@ public class LevelManager : EventInvoker
 
     public LevelData LevelData
     {
+        set
+        {
+            this.levelData = value;
+        }
         get
         {
             return this.levelData;

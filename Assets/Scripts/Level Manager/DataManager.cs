@@ -76,8 +76,10 @@ public class DataManager
 
         try
         {
+            Debug.Log(fileName);
             // Load the text file from Resources folder (make sure the file is in Assets/Resources)
-            TextAsset textAsset = Resources.Load<TextAsset>(fileName);
+            TextAsset textAsset = Resources.Load<TextAsset>("Levels/"+fileName);
+            if (textAsset != null) Debug.Log("document "+ fileName +"found");
             // Split the text asset content by newline characters to separate each line
             string[] lines = textAsset.text.Split('\n');
             int levelValue = 0;
@@ -122,6 +124,12 @@ public class DataManager
         }
         catch
         {
+            Debug.Log(levelData.level);
+            Debug.Log(levelData.width);
+            Debug.Log(levelData.height);
+            Debug.Log(levelData.colors);
+
+
             Debug.LogWarning("Level data file not found: " + fileName);
             levelData.level = 0;
             levelData.width = 4;
@@ -131,8 +139,6 @@ public class DataManager
             string blocks = "2,9,8,1";
             levelData.blocks = CreateBlocksArray(blocks);
         }
-
-
         return levelData;
     }
 

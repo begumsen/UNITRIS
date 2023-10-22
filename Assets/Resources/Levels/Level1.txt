@@ -1,0 +1,4 @@
+level: 1
+width: 7
+height: 12
+colors: #ff7d3f,#ff7d3f,#ff7d3f,-1,#ff7d3f,#ff7d3f,#ff7d3f,#ff7d3f,#ff7d3f,#ffc13b,-1,#ffc13b,#ff7d3f,#ff7d3f,-1,-1,#ffc13b,#ffc13b,#ffc13b,-1,-1,-1,#ffc13b,#ffc13b,#ffc13b,#ffc13b,#ffc13b,-1,-1,-1,#ffc13b,#ffc13b,#ffc13b,-1,-1,-1,#ffc13b,#ffc13b,#ffc13b,#ffc13b,#ffc13b,-1,#ffc13b,#ffc13b,#ffc13b,#ff7d3f,#ffc13b,#ffc13b,#ffc13b,#ffc13b,#ffffff,#78afd6,#ffc13b,#78afd6,#ffffff,#ffc13b,#ffc13b,#ffffff,#78afd6,#ffc13b,#78afd6,#ffffff,#ffc13b,#ffc13b,#ffffff,#ffffff,#ffc13b,#ffffff,#ffffff,#ffc13b,#ffc13b,#ffc13b,#ffc13b,#ffc13b,#ffc13b,#ffc13b,#ffc13b,-1,#ffc13b,#ffc13b,#ffc13b,#ffc13b,#ffc13b,-1
