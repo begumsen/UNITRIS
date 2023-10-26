@@ -78,7 +78,8 @@ public class ColorPicker : MonoBehaviour
             instance.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = message;
             instance.aComponent.gameObject.SetActive(useAlpha);
             instance.RecalculateMenu(true);
-            instance.hexaComponent.placeholder.GetComponent<Text>().text = "RRGGBB" + (useAlpha ? "AA" : "");
+            //instance.hexaComponent.placeholder.GetComponent<Text>().text = "RRGGBB" + (useAlpha ? "AA" : "");
+            instance.hexaComponent.placeholder.GetComponent<Text>().text = "RRGGBB";
             return true;
         }
         else
@@ -122,7 +123,8 @@ public class ColorPicker : MonoBehaviour
         positionIndicator.parent.GetChild(0).GetComponent<RawImage>().color = new HSV(modifiedHsv.H, 1d, 1d).ToColor();
         positionIndicator.anchorMin = new Vector2((float)modifiedHsv.S, (float)modifiedHsv.V);
         positionIndicator.anchorMax = positionIndicator.anchorMin;
-        hexaComponent.text = useA ? ColorUtility.ToHtmlStringRGBA(modifiedColor) : ColorUtility.ToHtmlStringRGB(modifiedColor);
+        //hexaComponent.text = useA ? ColorUtility.ToHtmlStringRGBA(modifiedColor) : ColorUtility.ToHtmlStringRGB(modifiedColor);
+        hexaComponent.text = ColorUtility.ToHtmlStringRGB(modifiedColor);
         colorComponent.color = modifiedColor;
         onCC?.Invoke(modifiedColor);
         interact = true;
@@ -238,7 +240,8 @@ public class ColorPicker : MonoBehaviour
             }
             else
             {
-                hexaComponent.text = useA ? ColorUtility.ToHtmlStringRGBA(modifiedColor) : ColorUtility.ToHtmlStringRGB(modifiedColor);
+                //hexaComponent.text = useA ? ColorUtility.ToHtmlStringRGBA(modifiedColor) : ColorUtility.ToHtmlStringRGB(modifiedColor);
+                hexaComponent.text = ColorUtility.ToHtmlStringRGB(modifiedColor);
             }
         }
     }

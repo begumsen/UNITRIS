@@ -10,12 +10,15 @@ public class LevelCreator : MonoBehaviour
     string levelName;
     int levelWidth;
     int levelHeight;
+    int levelGoal;
     TMP_InputField customName;
     TMP_InputField customWidth;
     TMP_InputField customHeight;
+    TMP_InputField customGoal;
     bool isInitialized = false;
     int customLevelIndex;
     LevelData customLevelData;
+    DataManager dataManager;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +30,8 @@ public class LevelCreator : MonoBehaviour
             customName = inputs.transform.Find("CustomName").GetComponent<TMP_InputField>();
             customWidth = inputs.transform.Find("CustomWidth").GetComponent<TMP_InputField>();
             customHeight = inputs.transform.Find("CustomHeight").GetComponent<TMP_InputField>();
+            customGoal = inputs.transform.Find("CustomGoal").GetComponent<TMP_InputField>();
+            dataManager = new DataManager();
             
         } else
         {
@@ -41,6 +46,7 @@ public class LevelCreator : MonoBehaviour
         levelName = customName.text;
         levelWidth = int.Parse(customWidth.text);
         levelHeight = int.Parse(customHeight.text);
+        levelGoal = int.Parse(customGoal.text);
         Debug.Log(levelName + " " + levelWidth + " " + levelHeight);
         CreateAndChangeLevelData();
     }
@@ -62,6 +68,7 @@ public class LevelCreator : MonoBehaviour
         newLevelData.level = customLevelIndex;
         newLevelData.width = levelWidth;
         newLevelData.height = levelHeight;
+        newLevelData.name = levelName;
 
         newLevelData.colors = new string[newLevelData.width, newLevelData.height];
         for (int x = 0; x < newLevelData.width; x++)
@@ -124,6 +131,11 @@ public class LevelCreator : MonoBehaviour
             }
         }
         customLevelData.colors = colorsInHex;
+    }
+
+    void SaveTheLevelToPersisentPath()
+    {
+        
     }
 
     string ColorToHex(Color color)

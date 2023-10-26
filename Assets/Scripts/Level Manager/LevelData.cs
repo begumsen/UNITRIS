@@ -10,4 +10,5 @@ public class LevelData
     public int height;
     public string[,] colors;
     public int[] blocks;
+    public string name;
 }
