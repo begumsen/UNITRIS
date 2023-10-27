@@ -42,4 +42,9 @@ public class LevelColorCreator : MonoBehaviour
             }
         }
     }
+
+    public void ColorSelectionIsFinished()
+    {
+        EventManager.TriggerEvent(EventName.CustomLevelFinalized, 0);
+    }
 }

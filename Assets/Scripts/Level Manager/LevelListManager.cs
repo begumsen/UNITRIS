@@ -19,7 +19,8 @@ public class LevelListManager : MonoBehaviour
 
     private void LoadTheLevels()
     {
-        foreach (Level level in LevelManager.Instance.dataManager.levelsList.levels)
+        DataManager dataManager = new DataManager();
+        foreach (Level level in dataManager.levelsList.levels)
         {
             if (levelPrefab != null)
             {
@@ -41,8 +42,13 @@ public class LevelListManager : MonoBehaviour
                     playText.text = "";
                     lockImage.enabled = true;
                 }
-                // Set the LevelNo and HighScore texts using the levelInfo data
                 levelNoText.text = "Level " + level.levelNo.ToString() + " - Goal: " + level.goal.ToString();
+                if (int.Parse(level.levelNo) < 0)
+                {
+                    levelNoText.text = "Level " + level.name + " - Goal: " + level.goal.ToString();
+                }
+                // Set the LevelNo and HighScore texts using the levelInfo data
+                
                 highScoreText.text = "High Score: " + level.highScore.ToString();
                 levelButton.levelNo = int.Parse(level.levelNo);
                 levelButtons.Add(levelButton);

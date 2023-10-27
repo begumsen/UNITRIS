@@ -40,7 +40,7 @@ public class LevelManager : EventInvoker
     void HandleLevelSelectedEvent(int levelNo)
     {
         currentLevel = levelNo;
-        levelData = dataManager.ReadLevelDataFromFile("Level"+ levelNo);
+        levelData = dataManager.getLevelData(levelNo);
         previousHighScore = dataManager.getPreviousHighScore(levelNo);
         levelGoal = dataManager.getGoal(levelNo);
         GameFlowManager.GoTo(GameFlowName.GamePlay);

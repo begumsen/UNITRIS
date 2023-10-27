@@ -18,6 +18,7 @@ public class GameBoard : EventInvoker
 
     // grid of Objects
     public Transform [,] board;
+    public Transform [,] colorBoard;
 
     ParticleController particleController;
 
@@ -42,6 +43,7 @@ public class GameBoard : EventInvoker
         events.Add(EventName.GameOver, new GameOverEvent());
         EventManager.AddInvoker(EventName.GameOver, this);
         board = new Transform[width, height];
+        colorBoard = new Transform[level.width, level.height];
         BuildBoard();
 
     }
@@ -73,7 +75,9 @@ public class GameBoard : EventInvoker
                 for (int x = 0; x < width; x++)
                 {
                     GameObject newSquare = Instantiate(roundedSquare, new Vector3(x, y, 8), Quaternion.identity) as GameObject;
-                    if (level.colors[x,y] == "-1" )
+                    colorBoard[x, y] = newSquare.transform;
+                    Debug.Log("y: " + y + " x: " + x);
+                    if (level.colors[y,x] == "-1" || level.colors[y, x] == "#484848")
                     {
                         ColorTheBlock(newSquare.transform, "#484848", 1f);
                     } else
@@ -163,7 +167,7 @@ public class GameBoard : EventInvoker
         {
             for (int x = 0; x < width; x++)
             {
-                if (board[x, y] == null && level.colors[x, y] != "-1")
+                if (board[x, y] == null && level.colors[y, x] != "-1")
                 {
                     return false;
                 }
@@ -189,10 +193,10 @@ public class GameBoard : EventInvoker
         int y = Mathf.RoundToInt(blockPosition.y);
         board[x, y] = block;
 
-        if (!(y >= height - marginBlockY) && level.colors[x, y] != "-1" && board[x, y] != null)
+        if (!(y >= height - marginBlockY) && level.colors[y, x] != "-1" && board[x, y] != null)
         {
             particleController.PlaceParticleFX(x, y, true);
-            ColorTheBlock(board[x, y], level.colors[x, y], 1f);
+            ColorTheBlock(board[x, y], level.colors[y, x], 1f);
             events[EventName.PointsAdded].Invoke(1);
             //gain point
         } else

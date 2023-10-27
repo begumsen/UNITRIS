@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 using System.IO;
+using Newtonsoft.Json;
+using System;
 
 public class DataManager
 {
@@ -21,6 +23,13 @@ public class DataManager
         this.levelList = JsonUtility.FromJson<LevelList>(levelJson);
     }
 
+
+    void SaveLevelList()
+    {
+        string updatedJson = JsonUtility.ToJson(levelList, true);
+        File.WriteAllText(filePath, updatedJson);
+    }
+
     public LevelList levelsList
     {
         get {
@@ -37,146 +46,88 @@ public class DataManager
         }
     }
 
+    Level GetTheLevelWithNo(int levelNo)
+    {
+        LoadLevelList();
+        Level level = levelList.levels.Find(level => level.levelNo == levelNo.ToString());
+        return level;
+    }
     public int getGoal(int levelNo)
     {
-       return levelList.levels[levelNo].goal;
+        Level level = GetTheLevelWithNo(levelNo);
+        return level.goal;
     }
 
     public int getPreviousHighScore(int levelNo)
     {
-        return levelList.levels[levelNo].highScore;
+
+        Level level = GetTheLevelWithNo(levelNo);
+        return level.highScore;
     }
 
     public void ChangeAndSaveHighScore(int levelNo, int newHighScore)
     {
-        if (levelNo >= 0 && levelNo < levelList.levels.Count)
-        {
-            levelList.levels[levelNo].highScore = newHighScore;
-        }
-        string updatedJson = JsonUtility.ToJson(levelList, true);
-        File.WriteAllText(filePath, updatedJson);
+        Level levelToUpdate = levelList.levels.Find(level => level.levelNo == levelNo.ToString());
+        levelToUpdate.highScore = newHighScore;
+        SaveLevelList();
     }
 
     public void IncrementInitialLockedLevel()
     {
         levelList.initialLockedLevel++;
-        string updatedJson = JsonUtility.ToJson(levelList, true);
-        File.WriteAllText(filePath, updatedJson);
+        SaveLevelList();
     }
 
-    public LevelData getLevelData(string fileName)
+    public LevelData getLevelData(int levelNo)
     {
-        return ReadLevelDataFromFile(fileName);
+        string fileName = "Level" + levelNo;
+        if(levelNo < 0)
+        {
+            return ReadLevelDataFromPersistentPath(fileName);
+        }
+        return ReadLevelDataFromResources(fileName);
     }
 
-    public LevelData ReadLevelDataFromFile(string fileName)
+
+    LevelData ReadLevelDataFromPersistentPath(string fileName)
     {
-        LevelData levelData = new LevelData();
-
-
-        try
-        {
-            Debug.Log(fileName);
-            // Load the text file from Resources folder (make sure the file is in Assets/Resources)
-            TextAsset textAsset = Resources.Load<TextAsset>("Levels/"+fileName);
-            if (textAsset != null) Debug.Log("document "+ fileName +"found");
-            // Split the text asset content by newline characters to separate each line
-            string[] lines = textAsset.text.Split('\n');
-            int levelValue = 0;
-            int widthValue = 0;
-            int heightValue = 0;
-            // Parse each line to extract the level information
-            foreach (string line in lines)
-            {
-                string[] tokens = line.Split(':');
-                if (tokens.Length == 2)
-                {
-                    string key = tokens[0].Trim().ToLower();
-                    string value = tokens[1].Trim();
-
-                    // Parse the values based on the keys
-                    switch (key)
-                    {
-                        case "level":
-                            if (int.TryParse(value, out levelValue))
-                                levelData.level = levelValue;
-                            break;
-                        case "width":
-                            if (int.TryParse(value, out widthValue))
-                                levelData.width = widthValue;
-                            break;
-                        case "height":
-                            if (int.TryParse(value, out heightValue))
-                                levelData.height = heightValue;
-                            break;
-                        case "colors":
-                            levelData.colors = CreateColorsArray(value, widthValue, heightValue);
-                            break;
-                        case "blocks":
-                            levelData.blocks = CreateBlocksArray(value);
-                            break;
-                        default:
-                            // Handle any other keys if necessary
-                            break;
-                    }
-                }
-            }
-        }
-        catch
-        {
-            Debug.Log(levelData.level);
-            Debug.Log(levelData.width);
-            Debug.Log(levelData.height);
-            Debug.Log(levelData.colors);
-
-
-            Debug.LogWarning("Level data file not found: " + fileName);
-            levelData.level = 0;
-            levelData.width = 4;
-            levelData.height = 7;
-            string color = "-1,-1,#424242,-1,-1,-1,#f45dab,-1,-1,#f45dab,#f487c1,#f45dab,-1,#f487c1,#f45dab,#f487c1,-1,#f45dab,-1,-1,-1,#f45dab,-1,-1,#666666,#f45dab,-1,-1";
-            levelData.colors = CreateColorsArray(color, levelData.width, levelData.height);
-            string blocks = "2,9,8,1";
-            levelData.blocks = CreateBlocksArray(blocks);
-        }
+        string levelFilePath = Path.Combine(Application.persistentDataPath, fileName);
+        string levelDataJson = File.ReadAllText(levelFilePath);
+        LevelData levelData = JsonConvert.DeserializeObject<LevelData>(levelDataJson);
+        Debug.Log("levelData " + levelData.name);
+        Debug.Log("levelData " + levelData.colors.Length);
         return levelData;
     }
 
-    public string[,] CreateColorsArray(string colorsInfo, int width, int height)
+    LevelData ReadLevelDataFromResources(string fileName)
     {
-        // Split the colorsInfo by commas to get individual color strings
-        string[] colorStrings = colorsInfo.Split(',');
-
-        string[,] levelArray = new string[width, height];
-
-        int index = 0;
-
-        // Fill the levelArray based on the color strings
-        for (int y = 0; y < height; y++)
+        TextAsset textAsset = Resources.Load<TextAsset>("Levels/" + fileName);
+        LevelData levelData = new LevelData();
+        if (textAsset != null)
         {
-            for (int x = 0; x < width; x++)
-            {
-                // Convert the color string to an integer representation
-                levelArray[x, y] = colorStrings[index];
-                index++;
-            }
+            levelData = JsonConvert.DeserializeObject<LevelData>(textAsset.text);
         }
 
-        return levelArray;
+        return levelData;
     }
 
-    public int[] CreateBlocksArray(string blocksInfo)
+    public void SaveTheNewCustomLevel(LevelData levelData, int customGoal)
     {
-        // Split the blocksInfo by commas to get individual color strings
-        string[] blocksStrings = blocksInfo.Split(',');
-
-        int[] blocks = new int[blocksStrings.Length];
-        for (int i = 0; i < blocksStrings.Length; i++)
+        Level customLevel = new Level
         {
-            int.TryParse(blocksStrings[i], out blocks[i]);
-        }
+            levelNo = levelData.level.ToString(),
+            goal = customGoal,
+            name = levelData.name,
+            highScore = 0
+        };
 
-        return blocks;
+        levelList.levels.Insert(0, customLevel);
+        SaveLevelList();
+
+        string customPath = Path.Combine(Application.persistentDataPath, "Level" + levelData.level);
+        string updatedJson = JsonConvert.SerializeObject(levelData, Formatting.Indented);
+        File.WriteAllText(customPath, updatedJson);
     }
+
 
 }

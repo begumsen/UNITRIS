@@ -16,5 +16,6 @@ public enum EventName
     ScoreFinalized,
     AnimationCompleted,
     Fade,
-    BoardIsFinalized
+    BoardIsFinalized,
+    CustomLevelFinalized
 }

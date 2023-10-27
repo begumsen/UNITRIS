@@ -3,22 +3,14 @@
   "levels": [
     {
       "levelNo": 0,
+      "name": "default",
       "goal": 5,
       "highScore": 0
     },
     {
       "levelNo": 1,
+      "name": "default",
       "goal": 30,
-      "highScore": 0
-    },
-    {
-      "levelNo": 2,
-      "goal": 32,
-      "highScore": 0
-    },
-    {
-      "levelNo": 3,
-      "goal": 33,
       "highScore": 0
     }
   ]

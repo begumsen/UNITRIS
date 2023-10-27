@@ -26,13 +26,10 @@ public class LevelSetup : MonoBehaviour
         if (jsonAsset != null)
         {
             string json = jsonAsset.text;
-
             string filePath = Path.Combine(Application.persistentDataPath, "levelJson.txt");
+            File.WriteAllText(filePath, json);
 
-            using (StreamWriter writer = new StreamWriter(filePath))
-            {
-                writer.Write(json);
-            }
+
         }
         else
         {

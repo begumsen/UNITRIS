@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class LevelCreator : MonoBehaviour
 {
@@ -19,7 +19,6 @@ public class LevelCreator : MonoBehaviour
     int customLevelIndex;
     LevelData customLevelData;
     DataManager dataManager;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -32,14 +31,15 @@ public class LevelCreator : MonoBehaviour
             customHeight = inputs.transform.Find("CustomHeight").GetComponent<TMP_InputField>();
             customGoal = inputs.transform.Find("CustomGoal").GetComponent<TMP_InputField>();
             dataManager = new DataManager();
-            
+            EventManager.AddListener(EventName.CustomLevelFinalized, SaveTheCustomLevel);
+
+
         } else
         {
             Destroy(gameObject);
         }
        
     }
-
 
     public void CreateButtonIsClicked()
     {
@@ -69,13 +69,13 @@ public class LevelCreator : MonoBehaviour
         newLevelData.width = levelWidth;
         newLevelData.height = levelHeight;
         newLevelData.name = levelName;
-
-        newLevelData.colors = new string[newLevelData.width, newLevelData.height];
-        for (int x = 0; x < newLevelData.width; x++)
+        newLevelData.blocks = new int[] {};
+        newLevelData.colors = new string[newLevelData.height, newLevelData.width];
+        for (int y = 0; y < newLevelData.height; y++) 
         {
-            for (int y = 0; y < newLevelData.height; y++)
+            for (int x = 0; x < newLevelData.width; x++)
             {
-                newLevelData.colors[x, y] = "-1"; 
+                newLevelData.colors[y, x] = "-1"; 
             }
         }
 
@@ -94,27 +94,30 @@ public class LevelCreator : MonoBehaviour
         GameBoard gameBoard = GameObject.FindWithTag("GameBoard").GetComponent<GameBoard>();
     }
 
-    void SaveTheCustomLevel()
+    public void SaveTheCustomLevel(int a)
     {
-        GetTheColorsFromBoard();
-
-
+        GetAndSetTheColorsFromBoard();
+        SaveTheLevelToPersisentPath();
+        GameFlowManager.GoTo(GameFlowName.MainMenu);
     }
 
-    void GetTheColorsFromBoard()
+    void GetAndSetTheColorsFromBoard()
     {
         GameBoard gameBoard = GameObject.FindWithTag("GameBoard").GetComponent<GameBoard>();
 
-        Transform[,] board = gameBoard.board;
-        int rows = board.GetLength(0);
-        int cols = board.GetLength(1);
-        string[,] colorsInHex = new string[rows, cols];
+        Transform[,] colorBoard = gameBoard.colorBoard;
+        int rows = colorBoard.GetLength(0); //width
+        int cols = colorBoard.GetLength(1); //height
+        Debug.Log("rows: " + rows + " cols: " + cols);
+        string[,] colorsInHex = new string[cols, rows];
 
         for (int row = 0; row < rows; row++)
         {
             for (int col = 0; col < cols; col++)
             {
-                Transform objectTransform = board[row, col];
+                Debug.Log("row: " + row + " col: " + col);
+                Transform objectTransform = colorBoard[row, col];
+                if (objectTransform == null) Debug.Log("objectTransform is null");
                 SpriteRenderer spriteRenderer = objectTransform.GetComponent<SpriteRenderer>();
 
                 if (spriteRenderer != null)
@@ -124,9 +127,11 @@ public class LevelCreator : MonoBehaviour
 
                     // Convert the color to a hex string
                     string hexColor = ColorToHex(color);
+                    Debug.Log("hexColor"+ hexColor);
 
                     // Store the hex color in the string array
-                    colorsInHex[row, col] = hexColor;
+                    colorsInHex[col, row] = hexColor;
+
                 }
             }
         }
@@ -135,7 +140,7 @@ public class LevelCreator : MonoBehaviour
 
     void SaveTheLevelToPersisentPath()
     {
-        
+        dataManager.SaveTheNewCustomLevel(customLevelData, levelGoal);
     }
 
     string ColorToHex(Color color)
