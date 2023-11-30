@@ -96,9 +96,14 @@ public class LevelCreator : MonoBehaviour
 
     public void SaveTheCustomLevel(int a)
     {
-        GetAndSetTheColorsFromBoard();
+        //GetAndSetTheColorsFromBoard();
         SaveTheLevelToPersisentPath();
         GameFlowManager.GoTo(GameFlowName.MainMenu);
+    }
+
+    public void ChangeColor(int x, int y, Color color)
+    {
+        customLevelData.colors[x, y] = ColorToHex(color);
     }
 
     void GetAndSetTheColorsFromBoard()
